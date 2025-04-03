@@ -1,0 +1,21 @@
+on:
+  release:
+    types: [created]
+name: Handle Release
+jobs:
+  generate:
+    name: Create release-artifacts
+    runs-on: ubuntu-latest
+    steps:
+    - name: Download built artifacts 
+      uses: actions/download-artifact@v4
+      with:
+        name: volctl-linux-amd64
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        repository: actions/toolkit
+    - name: Upload the artifacts
+      uses: skx/github-action-publish-binaries@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        args: $GITHUB_WORKSPACE/volctl-linux-amd64
