@@ -18,19 +18,55 @@ Created with ❤️ using **Vibe Coding**.
 - Works with **PipeWire** via `wpctl`
 
 ---
+## 🎥 Demo
+
+![volctl-demo](docs/assets/demo.gif)
+
+---
 
 ## 🚀 Usage
 
 ```sh
-volctl up 5        # Increase volume by 5%
-volctl down 2.5    # Decrease volume by 2.5%
+volctl up 10       # Increase volume by 10%
+volctl down 2      # Decrease volume by 2%
+volctl up          # Decrease volume by 5% (default value)
 volctl mute        # Toggle mute
 volctl up 10 --verbose  # Verbose output
+```
+---
+## 🧪 Installation
+
+>[!Note]
+>To build and install volctl, you need to have [Cargo](https://github.com/rust-lang/cargo) installed on your system.
+
+Build volctl from source
+
+```sh
+git clone git@github.com:devguyio/volctl.git
+cd volctl
+cargo build --release
+```
+
+Then install the binary into any of your PATH directories. 
+
+```sh
+install ./target/release/volctl /usr/local/bin
 ```
 
 ---
 
 ## 🔧 Setup in i3
+
+### 📦 Dependencies
+- [notify-rust](https://crates.io/crates/notify-rust)
+- PipeWire (via `wpctl`)
+
+Install requirements on Fedora:
+```sh
+sudo dnf install wireplumber libnotify
+```
+
+### ✍️ i3 Configuration
 
 Add these lines to your `~/.config/i3/config`:
 
@@ -48,31 +84,6 @@ i3-msg reload && i3-msg restart
 Make sure `volctl` is in your PATH. You can place the binary in `~/.local/bin/`:
 ```sh
 cp target/release/volctl ~/.local/bin/
-```
-
----
-
-## 🎥 Demo
-
-![volctl-demo](docs/assets/demo.gif)
-
----
-
-## 📦 Dependencies
-- [notify-rust](https://crates.io/crates/notify-rust)
-- PipeWire (via `wpctl`)
-
-Install requirements on Fedora:
-```sh
-sudo dnf install wireplumber libnotify
-```
-
----
-
-## 🧪 Development
-```sh
-cargo build --release
-./target/release/volctl up 5
 ```
 
 ---
