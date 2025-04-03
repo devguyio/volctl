@@ -1,5 +1,4 @@
 name: CI
-
 on:
   push:
     branches: [ "main" ]
@@ -11,17 +10,19 @@ env:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
+    strategy:
+      matrix:
+        BUILD_TARGET: [release] # refers to a cargo profile
     steps:
     - uses: actions/checkout@v4
-    - name: Build
-      run: cargo build --verbose
-    - name: Run tests
-      run: cargo test --verbose
+    - name: Build binaries in "${{ matrix.BUILD_TARGET }}" mode
+      run: cargo build --verbose --profile ${{ matrix.BUILD_TARGET }}
+    - name: Run tests in "${{ matrix.BUILD_TARGET }}" mode
+      run: cargo test --verbose --profile ${{ matrix.BUILD_TARGET }}
     - name: Upload binaries
       uses: actions/upload-artifact@v4
       with:
         name: volctl-linux-amd64
-        path: target/release/volctl
+        path: target/${{ matrix.BUILD_TARGET }}/volctl
+        if-no-files-found: error
